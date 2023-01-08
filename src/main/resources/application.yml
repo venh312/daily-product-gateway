@@ -1,0 +1,21 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: dailyProductGateway
+  cloud:
+    gateway:
+      routes:
+        - id: livestock
+          uri: lb://LIVESTOCK
+          predicates:
+            - Path=/livestock/**
+          filters:
+            - ClientAuthFilter
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+global:
+  clientKey: ${client_key}
