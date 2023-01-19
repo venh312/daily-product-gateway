@@ -16,17 +16,14 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class ClientAuthFilter extends AbstractGatewayFilterFactory {
-
     @Value("${global.clientKey}")
-    private String clientKey;
+    private String gClientKey;
 
     @Override
     public GatewayFilter apply(Object config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
-
-            log.info("[Gateway] ClientAuthFilter : request uri => {}", request.getURI());
 
             if (!request.getHeaders().containsKey("CLIENT-KEY")) {
                 return handleUnAuthorized(exchange); // 401 Error
@@ -35,7 +32,7 @@ public class ClientAuthFilter extends AbstractGatewayFilterFactory {
             List<String> clientKey = request.getHeaders().get("CLIENT-KEY");
             String clientKeyString = Objects.requireNonNull(clientKey).get(0);
 
-            if (!clientKey.equals(clientKeyString)) {
+            if (!gClientKey.equals(clientKeyString)) {
                 return handleUnAuthorized(exchange); // 토큰이 일치하지 않을 때
             }
 

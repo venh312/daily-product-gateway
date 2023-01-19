@@ -12,6 +12,18 @@ spring:
             - Path=/livestock/**
           filters:
             - ClientAuthFilter
+        - id: support
+          uri: lb://SUPPORT
+          predicates:
+            - Path=/faq/**, /notice/**
+          filters:
+            - ClientAuthFilter
+        - id: user
+          uri: lb://USERS
+          predicates:
+            - Path=/user/**
+          filters:
+            - ClientAuthFilter
 eureka:
   client:
     serviceUrl:
@@ -19,3 +31,4 @@ eureka:
 
 global:
   clientKey: ${client_key}
+  secretKey: ${secret_key}
