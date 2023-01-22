@@ -1,0 +1,33 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: livestock
+          uri: lb://LIVESTOCK
+          predicates:
+            - Path=/livestock/**
+          filters:
+            - ClientAuthFilter
+        - id: support
+          uri: lb://SUPPORT
+          predicates:
+            - Path=/faq/**, /notice/**
+          filters:
+            - ClientAuthFilter
+        - id: user
+          uri: lb://USERS
+          predicates:
+            - Path=/user/**
+          filters:
+            - ClientAuthFilter
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://172.17.0.4:8761/eureka
+
+global:
+  clientKey: ${client_key}
