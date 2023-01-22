@@ -2,7 +2,7 @@ server:
   port: 8000
 spring:
   application:
-    name: dailyProductGateway
+    name: gateway
   cloud:
     gateway:
       routes:
@@ -31,4 +31,3 @@ eureka:
 
 global:
   clientKey: ${client_key}
-  secretKey: ${secret_key}
