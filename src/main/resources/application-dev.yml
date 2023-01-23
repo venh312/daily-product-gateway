@@ -27,7 +27,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://172.17.0.4:8761/eureka
+      defaultZone: http://${eureka_server}:8761/eureka
 
 global:
   clientKey: ${client_key}
