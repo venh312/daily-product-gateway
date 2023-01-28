@@ -24,17 +24,17 @@ public class ClientAuthFilter extends AbstractGatewayFilterFactory {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
+            log.info("[Gateway] ClientAuthFilter : Connect HostName -> {}", request.getRemoteAddress().getHostName());
+            log.info("[Gateway] ClientAuthFilter : Connect getURI -> {}", request.getURI());
 
-            if (!request.getHeaders().containsKey("CLIENT-KEY")) {
+            if (!request.getHeaders().containsKey("CLIENT-KEY"))
                 return handleUnAuthorized(exchange); // 401 Error
-            }
 
             List<String> clientKey = request.getHeaders().get("CLIENT-KEY");
             String clientKeyString = Objects.requireNonNull(clientKey).get(0);
 
-            if (!gClientKey.equals(clientKeyString)) {
+            if (!gClientKey.equals(clientKeyString))
                 return handleUnAuthorized(exchange); // 토큰이 일치하지 않을 때
-            }
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 log.info("[Gateway] ClientAuthFilter : response code -> {}", response.getStatusCode());
