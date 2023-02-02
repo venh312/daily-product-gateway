@@ -21,7 +21,7 @@ spring:
         - id: user
           uri: lb://USERS
           predicates:
-            - Path=/user/**
+            - Path=/user/**, /user-bookmark/**
           filters:
             - ClientAuthFilter
 eureka:
